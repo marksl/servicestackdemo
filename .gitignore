@@ -1,2 +1,4 @@
 *.suo
 _resharper.*
+Service/bin
+Service/obj
