@@ -1,0 +1,7 @@
+C:\Users\Aloc\servicestackdemo\Model\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Aloc\servicestackdemo\Model\bin\Debug\Model.dll
+C:\Users\Aloc\servicestackdemo\Model\bin\Debug\Model.pdb
+C:\Users\Aloc\servicestackdemo\Model\bin\Debug\ServiceStack.Interfaces.pdb
+C:\Users\Aloc\servicestackdemo\Model\bin\Debug\ServiceStack.Interfaces.xml
+C:\Users\Aloc\servicestackdemo\Model\obj\Debug\Model.dll
+C:\Users\Aloc\servicestackdemo\Model\obj\Debug\Model.pdb

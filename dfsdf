@@ -1,0 +1,486 @@
+[1mdiff --git a/Service/App_Start/AppHost.cs b/Service/App_Start/AppHost.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 2e5e03c..0000000[m
+[1m--- a/Service/App_Start/AppHost.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,42 +0,0 @@[m
+[31m-using System.Configuration;[m
+[31m-using Funq;[m
+[31m-using Service.App_Start;[m
+[31m-using Service.Service;[m
+[31m-using ServiceStack.OrmLite;[m
+[31m-using ServiceStack.OrmLite.SqlServer;[m
+[31m-using ServiceStack.Text;[m
+[31m-using ServiceStack.WebHost.Endpoints;[m
+[31m-using WebActivator;[m
+[31m-[m
+[31m-[assembly: PreApplicationStartMethod(typeof (AppHost), "Start")][m
+[31m-[m
+[31m-namespace Service.App_Start[m
+[31m-{[m
+[31m-    public class AppHost : AppHostBase[m
+[31m-    {[m
+[31m-        public AppHost() : base("StarterTemplate ASP.NET Host", typeof (UserService).Assembly)[m
+[31m-        {[m
+[31m-        }[m
+[31m-[m
+[31m-        public override void Configure(Container container)[m
+[31m-        {[m
+[31m-            //Set JSON web services to return idiomatic JSON camelCase properties[m
+[31m-            JsConfig.EmitCamelCaseNames = true;[m
+[31m-[m
+[31m-            //Configure User Defined REST Paths[m
+[31m-            Routes.Add<UserRequest>("/user/{Id}");[m
+[31m-[m
+[31m-            string connectionString = ConfigurationManager.ConnectionStrings["AppDb"].ConnectionString;[m
+[31m-[m
+[31m-            container.Register<IDbConnectionFactory>(c =>[m
+[31m-                                                     new OrmLiteConnectionFactory(connectionString,[m
+[31m-                                                                                  SqlServerOrmLiteDialectProvider.[m
+[31m-                                                                                      Instance));[m
+[31m-        }[m
+[31m-[m
+[31m-        public static void Start()[m
+[31m-        {[m
+[31m-            new AppHost().Init();[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/Data.Model/Configuration.cs b/Service/Data.Model/Configuration.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 6aba684..0000000[m
+[1m--- a/Service/Data.Model/Configuration.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,7 +0,0 @@[m
+[31m-﻿namespace Service.Data.Model[m
+[31m-{[m
+[31m-    internal sealed class Configuration[m
+[31m-    {[m
+[31m-        public const string DefaultNamespace = "http://demo.sevicestack.net/types";[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/Data.Model/Contact.cs b/Service/Data.Model/Contact.cs[m
+[1mdeleted file mode 100644[m
+[1mindex fb8c37f..0000000[m
+[1m--- a/Service/Data.Model/Contact.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,25 +0,0 @@[m
+[31m-﻿using System.Runtime.Serialization;[m
+[31m-using ServiceStack.DesignPatterns.Model;[m
+[31m-[m
+[31m-namespace Service.Data.Model[m
+[31m-{[m
+[31m-    [DataContract(Namespace = Configuration.DefaultNamespace)][m
+[31m-    public class Contact : IHasId<int>[m
+[31m-    {[m
+[31m-        [DataMember][m
+[31m-        public string Email { get; set; }[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public string Name { get; set; }[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public int UserId { get; set; }[m
+[31m-[m
+[31m-        #region IHasId<int> Members[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public int Id { get; set; }[m
+[31m-[m
+[31m-        #endregion[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/Data.Model/ContactGroup.cs b/Service/Data.Model/ContactGroup.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 801093b..0000000[m
+[1m--- a/Service/Data.Model/ContactGroup.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,22 +0,0 @@[m
+[31m-﻿using System.Runtime.Serialization;[m
+[31m-using ServiceStack.DesignPatterns.Model;[m
+[31m-[m
+[31m-namespace Service.Data.Model[m
+[31m-{[m
+[31m-    [DataContract(Namespace = Configuration.DefaultNamespace)][m
+[31m-    public class ContactGroup : IHasId<int>[m
+[31m-    {[m
+[31m-        [DataMember][m
+[31m-        public int ContactId { get; set; }[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public string Name { get; set; }[m
+[31m-[m
+[31m-        #region IHasId<int> Members[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public int Id { get; set; }[m
+[31m-[m
+[31m-        #endregion[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/Data.Model/User.cs b/Service/Data.Model/User.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 6551779..0000000[m
+[1m--- a/Service/Data.Model/User.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,25 +0,0 @@[m
+[31m-﻿using System.Runtime.Serialization;[m
+[31m-using ServiceStack.DesignPatterns.Model;[m
+[31m-[m
+[31m-namespace Service.Data.Model[m
+[31m-{[m
+[31m-    [DataContract(Namespace = Configuration.DefaultNamespace)][m
+[31m-    public class User : IHasId<int>[m
+[31m-    {[m
+[31m-        [DataMember][m
+[31m-        public string Email { get; set; }[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public string FirstName { get; set; }[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public string LastName { get; set; }[m
+[31m-[m
+[31m-        #region IHasId<int> Members[m
+[31m-[m
+[31m-        [DataMember][m
+[31m-        public int Id { get; set; }[m
+[31m-[m
+[31m-        #endregion[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/README.txt b/Service/README.txt[m
+[1mdeleted file mode 100644[m
+[1mindex 260e690..0000000[m
+[1m--- a/Service/README.txt[m
+[1m+++ /dev/null[m
+[36m@@ -1,36 +0,0 @@[m
+[31m-To enable the Mini Profiler add the following lines in to Global class in Global.asax.cs:[m
+[31m-[m
+[31m-[m
+[31m-	protected void Application_BeginRequest(object src, EventArgs e)[m
+[31m-	{[m
+[31m-		if (Request.IsLocal)[m
+[31m-			ServiceStack.MiniProfiler.Profiler.Start();[m
+[31m-	}[m
+[31m-[m
+[31m-	protected void Application_EndRequest(object src, EventArgs e)[m
+[31m-	{[m
+[31m-		ServiceStack.MiniProfiler.Profiler.Stop();[m
+[31m-	}[m
+[31m-[m
+[31m-[m
+[31m-For more info on the MiniProfiler see v3.09 of the https://github.com/ServiceStack/ServiceStack/wiki/Release-Notes[m
+[31m-[m
+[31m-[m
+[31m-The Urls for metadata page and included Services:[m
+[31m-[m
+[31m-  * /metadata - Auto generated metadata pages[m
+[31m-  * /hello - Simple Hello World Service. see: http://www.servicestack.net/ServiceStack.Hello/[m
+[31m-  * /todos - Simple REST Service. see: http://www.servicestack.net/Backbone.Todos/[m
+[31m-[m
+[31m-  * /default.htm - Backbone.js TODO application talking to the TODO REST service at /todos[m
+[31m-[m
+[31m-[m
+[31m-For more info about ServiceStack please visit: http://www.servicestack.net[m
+[31m-[m
+[31m-Feel free to ask questions about ServiceStack on:[m
+[31m-http://stackoverflow.com/[m
+[31m-[m
+[31m-or on the mailing Group at:[m
+[31m-http://groups.google.com/group/servicestack[m
+[31m-[m
+[31m-Enjoy![m
+\ No newline at end of file[m
+[1mdiff --git a/Service/Service.csproj b/Service/Service.csproj[m
+[1mindex fff5175..e3e9fe5 100644[m
+[1m--- a/Service/Service.csproj[m
+[1m+++ b/Service/Service.csproj[m
+[36m@@ -53,12 +53,6 @@[m
+     <Reference Include="ServiceStack.OrmLite.SqlServer">[m
+       <HintPath>..\packages\ServiceStack.OrmLite.SqlServer.3.6.0\lib\ServiceStack.OrmLite.SqlServer.dll</HintPath>[m
+     </Reference>[m
+[31m-    <Reference Include="ServiceStack.RazorEngine">[m
+[31m-      <HintPath>..\packages\ServiceStack.3.6.0\lib\net35\ServiceStack.RazorEngine.dll</HintPath>[m
+[31m-    </Reference>[m
+[31m-    <Reference Include="ServiceStack.Redis">[m
+[31m-      <HintPath>..\packages\ServiceStack.Redis.3.5.8\lib\net35\ServiceStack.Redis.dll</HintPath>[m
+[31m-    </Reference>[m
+     <Reference Include="ServiceStack.ServiceInterface">[m
+       <HintPath>..\packages\ServiceStack.3.6.0\lib\net35\ServiceStack.ServiceInterface.dll</HintPath>[m
+     </Reference>[m
+[36m@@ -66,27 +60,12 @@[m
+       <HintPath>..\packages\ServiceStack.Text.3.6.0\lib\net35\ServiceStack.Text.dll</HintPath>[m
+     </Reference>[m
+     <Reference Include="System" />[m
+[31m-    <Reference Include="System.Data" />[m
+     <Reference Include="System.Core" />[m
+[31m-    <Reference Include="System.Data.DataSetExtensions" />[m
+[31m-    <Reference Include="System.Runtime.Serialization" />[m
+[31m-    <Reference Include="System.Web.Extensions" />[m
+[31m-    <Reference Include="System.Xml.Linq" />[m
+[31m-    <Reference Include="System.Drawing" />[m
+[31m-    <Reference Include="System.Web" />[m
+[31m-    <Reference Include="System.Xml" />[m
+     <Reference Include="System.Configuration" />[m
+[31m-    <Reference Include="System.Web.Services" />[m
+[31m-    <Reference Include="System.EnterpriseServices" />[m
+[31m-    <Reference Include="System.Web.DynamicData" />[m
+[31m-    <Reference Include="System.Web.Entity" />[m
+[31m-    <Reference Include="System.Web.ApplicationServices" />[m
+[31m-    <Reference Include="WebActivator">[m
+[31m-      <HintPath>..\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>[m
+[31m-    </Reference>[m
+[32m+[m[32m    <Reference Include="System.Data" />[m
+[32m+[m[32m    <Reference Include="WebActivator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+[31m-    <Content Include="README.txt" />[m
+     <Content Include="Web.config">[m
+       <SubType>Designer</SubType>[m
+     </Content>[m
+[36m@@ -98,20 +77,22 @@[m
+     </Content>[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+[31m-    <Compile Include="App_Start\AppHost.cs" />[m
+[31m-    <Compile Include="Data.Model\Configuration.cs" />[m
+[31m-    <Compile Include="Data.Model\Contact.cs" />[m
+[31m-    <Compile Include="Data.Model\ContactGroup.cs" />[m
+[31m-    <Compile Include="Data.Model\User.cs" />[m
+[32m+[m[32m    <Compile Include="Service\AppHost.cs" />[m
+[32m+[m[32m    <Compile Include="Data\Contact.cs" />[m
+[32m+[m[32m    <Compile Include="Data\ContactGroup.cs" />[m
+[32m+[m[32m    <Compile Include="Data\User.cs" />[m
+     <Compile Include="Properties\AssemblyInfo.cs" />[m
+[31m-    <Compile Include="ServiceModel\ContactWithGroup.cs" />[m
+[31m-    <Compile Include="ServiceModel\UserResponse.cs" />[m
+     <Compile Include="Service\UserService.cs" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+     <Content Include="packages.config" />[m
+   </ItemGroup>[m
+[31m-  <ItemGroup />[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <ProjectReference Include="..\Model\Model.csproj">[m
+[32m+[m[32m      <Project>{268F13D0-210B-4CE0-9533-590B6580306C}</Project>[m
+[32m+[m[32m      <Name>Model</Name>[m
+[32m+[m[32m    </ProjectReference>[m
+[32m+[m[32m  </ItemGroup>[m
+   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />[m
+   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />[m
+   <ProjectExtensions>[m
+[36m@@ -133,6 +114,10 @@[m
+       </FlavorProperties>[m
+     </VisualStudio>[m
+   </ProjectExtensions>[m
+[32m+[m[32m  <PropertyGroup>[m
+[32m+[m[32m    <PostBuildEvent>[m
+[32m+[m[32m    </PostBuildEvent>[m
+[32m+[m[32m  </PropertyGroup>[m
+   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. [m
+        Other similar extension points exist, see Microsoft.Common.targets.[m
+   <Target Name="BeforeBuild">[m
+[1mdiff --git a/Service/Service/UserService.cs b/Service/Service/UserService.cs[m
+[1mindex 7f2a8ae..ebe93bb 100644[m
+[1m--- a/Service/Service/UserService.cs[m
+[1m+++ b/Service/Service/UserService.cs[m
+[36m@@ -1,24 +1,17 @@[m
+ ﻿using System.Collections.Generic;[m
+ using System.Data;[m
+[31m-using System.Linq;[m
+[31m-using Service.Data.Model;[m
+[31m-using Service.ServiceModel;[m
+[32m+[m[32musing Model;[m
+ using ServiceStack.OrmLite;[m
+ using ServiceStack.ServiceHost;[m
+[32m+[m[32musing Contact = Service.Data.Contact;[m
+[32m+[m[32musing User = Service.Data.User;[m
+ [m
+ namespace Service.Service[m
+ {[m
+[31m-    public class UserRequest[m
+[31m-    {[m
+[31m-        public int Id { get; set; }[m
+[31m-    }[m
+[31m-[m
+[31m-    public class UserService : IService<UserRequest>[m
+[32m+[m[32m    internal class UserService : IService<UserRequest>[m
+     {[m
+         public IDbConnectionFactory ConnectionFactory { get; set; }[m
+ [m
+[31m-        #region IService<UserRequest> Members[m
+[31m-[m
+         public object Execute(UserRequest request)[m
+         {[m
+             var response = new UserResponse();[m
+[36m@@ -31,28 +24,15 @@[m [mnamespace Service.Service[m
+                 {[m
+                     List<Contact> contacts = dbCmd.Select<Contact>(x => x.UserId == user.Id);[m
+ [m
+[31m-                    Dictionary<int, List<string>> contactGroups = dbCmd.GetLookup<int, string>([m
+[32m+[m[32m                    Dictionary<long, List<string>> contactGroups = dbCmd.GetLookup<long, string>([m
+                         "select cg.ContactId, cg.Name from ContactGroup cg join Contact c on cg.ContactId = c.Id where c.UserId = {0}",[m
+                         user.Id);[m
+ [m
+[31m-                    response.User = user;[m
+[31m-                    response.Contacts = GetContacts(contacts, contactGroups);[m
+[32m+[m[32m                    response.User = user.ToModel(contacts, contactGroups);[m
+                 }[m
+             }[m
+ [m
+             return response;[m
+         }[m
+[31m-[m
+[31m-        #endregion[m
+[31m-[m
+[31m-        // Perhaps Automapper?[m
+[31m-        // http://lostechies.com/jimmybogard/2009/01/23/automapper-the-object-object-mapper/[m
+[31m-        private List<ContactAndGroups> GetContacts(IEnumerable<Contact> contacts,[m
+[31m-                                                   Dictionary<int, List<string>> contactGroups)[m
+[31m-        {[m
+[31m-            return[m
+[31m-                contacts.Select(c => new ContactAndGroups {Email = c.Email, Name = c.Name, Groups = contactGroups[c.Id]})[m
+[31m-                    .ToList();[m
+[31m-        }[m
+     }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/ServiceModel/ContactWithGroup.cs b/Service/ServiceModel/ContactWithGroup.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 05ae726..0000000[m
+[1m--- a/Service/ServiceModel/ContactWithGroup.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,13 +0,0 @@[m
+[31m-﻿using System.Collections.Generic;[m
+[31m-[m
+[31m-namespace Service.ServiceModel[m
+[31m-{[m
+[31m-    public class ContactAndGroups[m
+[31m-    {[m
+[31m-        public string Email { get; set; }[m
+[31m-[m
+[31m-        public string Name { get; set; }[m
+[31m-[m
+[31m-        public List<string> Groups { get; set; }[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/ServiceModel/UserResponse.cs b/Service/ServiceModel/UserResponse.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 09030cd..0000000[m
+[1m--- a/Service/ServiceModel/UserResponse.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,15 +0,0 @@[m
+[31m-﻿using System.Collections.Generic;[m
+[31m-using Service.Data.Model;[m
+[31m-using ServiceStack.ServiceInterface.ServiceModel;[m
+[31m-[m
+[31m-namespace Service.ServiceModel[m
+[31m-{[m
+[31m-    public class UserResponse[m
+[31m-    {[m
+[31m-        public ResponseStatus ResponseStatus { get; set; }[m
+[31m-[m
+[31m-        public User User { get; set; }[m
+[31m-[m
+[31m-        public List<ContactAndGroups> Contacts { get; set; }[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/Service/Web.config b/Service/Web.config[m
+[1mindex b289483..abff966 100644[m
+[1m--- a/Service/Web.config[m
+[1m+++ b/Service/Web.config[m
+[36m@@ -1,11 +1,11 @@[m
+ ﻿<?xml version="1.0" encoding="utf-8"?>[m
+[31m-[m
+ <configuration>[m
+   <connectionStrings>[m
+     <add name="AppDb" connectionString="Server=localhost;Database=servicestack;Trusted_Connection=True;" />[m
+   </connectionStrings>[m
+   <system.web>[m
+[31m-    <compilation debug="true" targetFramework="4.0" />[m
+[32m+[m[32m    <compilation debug="true" targetFramework="4.0">[m
+[32m+[m[32m    </compilation>[m
+     <httpHandlers>[m
+       <add path="*" type="ServiceStack.WebHost.Endpoints.ServiceStackHttpHandlerFactory, ServiceStack" verb="*" />[m
+     </httpHandlers>[m
+[36m@@ -14,9 +14,10 @@[m
+     <modules runAllManagedModulesForAllRequests="true" />[m
+     <validation validateIntegratedModeConfiguration="false" />[m
+     <handlers>[m
+[31m-      <add path="*" name="ServiceStack.Factory"[m
+[31m-           type="ServiceStack.WebHost.Endpoints.ServiceStackHttpHandlerFactory, ServiceStack" verb="*"[m
+[31m-           preCondition="integratedMode" resourceType="Unspecified" allowPathInfo="true" />[m
+[32m+[m[32m      <add path="*" name="ServiceStack.Factory" type="ServiceStack.WebHost.Endpoints.ServiceStackHttpHandlerFactory, ServiceStack" verb="*" preCondition="integratedMode" resourceType="Unspecified" allowPathInfo="true" />[m
+     </handlers>[m
+   </system.webServer>[m
+[32m+[m[32m  <system.serviceModel>[m
+[32m+[m[32m    <serviceHostingEnvironment aspNetCompatibilityEnabled="true" />[m
+[32m+[m[32m  </system.serviceModel>[m
+ </configuration>[m
+\ No newline at end of file[m
+[1mdiff --git a/ServiceStackDemo.sln b/ServiceStackDemo.sln[m
+[1mindex 0b95342..f80ec18 100644[m
+[1m--- a/ServiceStackDemo.sln[m
+[1m+++ b/ServiceStackDemo.sln[m
+[36m@@ -3,7 +3,23 @@[m [mMicrosoft Visual Studio Solution File, Format Version 11.00[m
+ # Visual Studio 2010[m
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{F0BA071B-9AD2-4A1F-9A61-B0F2507E0C44}"[m
+ EndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Test", "Service.Test\Service.Test.csproj", "{448F95EF-2614-43BE-916D-ADABB4E13FCD}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mProject("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{46D26D7A-BE22-45C9-8CB3-53DD24E7BFE3}"[m
+[32m+[m	[32mProjectSection(SolutionItems) = preProject[m
+[32m+[m		[32mLocal.testsettings = Local.testsettings[m
+[32m+[m		[32mServiceStackDemo.vsmdi = ServiceStackDemo.vsmdi[m
+[32m+[m		[32mTraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings[m
+[32m+[m	[32mEndProjectSection[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataService", "ODataService\ODataService.csproj", "{AA3B81F9-20A9-4891-A37F-788FC3731D78}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{268F13D0-210B-4CE0-9533-590B6580306C}"[m
+[32m+[m[32mEndProject[m
+ Global[m
+[32m+[m	[32mGlobalSection(TestCaseManagementSettings) = postSolution[m
+[32m+[m		[32mCategoryFile = ServiceStackDemo.vsmdi[m
+[32m+[m	[32mEndGlobalSection[m
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+ 		Debug|Any CPU = Debug|Any CPU[m
+ 		Release|Any CPU = Release|Any CPU[m
+[36m@@ -13,6 +29,18 @@[m [mGlobal[m
+ 		{F0BA071B-9AD2-4A1F-9A61-B0F2507E0C44}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+ 		{F0BA071B-9AD2-4A1F-9A61-B0F2507E0C44}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+ 		{F0BA071B-9AD2-4A1F-9A61-B0F2507E0C44}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{448F95EF-2614-43BE-916D-ADABB4E13FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{448F95EF-2614-43BE-916D-ADABB4E13FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{448F95EF-2614-43BE-916D-ADABB4E13FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{448F95EF-2614-43BE-916D-ADABB4E13FCD}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{AA3B81F9-20A9-4891-A37F-788FC3731D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{AA3B81F9-20A9-4891-A37F-788FC3731D78}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{AA3B81F9-20A9-4891-A37F-788FC3731D78}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{AA3B81F9-20A9-4891-A37F-788FC3731D78}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{268F13D0-210B-4CE0-9533-590B6580306C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{268F13D0-210B-4CE0-9533-590B6580306C}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{268F13D0-210B-4CE0-9533-590B6580306C}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{268F13D0-210B-4CE0-9533-590B6580306C}.Release|Any CPU.Build.0 = Release|Any CPU[m
+ 	EndGlobalSection[m
+ 	GlobalSection(SolutionProperties) = preSolution[m
+ 		HideSolutionNode = FALSE[m
+[1mdiff --git a/packages/repositories.config b/packages/repositories.config[m
+[1mindex 4701d22..75735c4 100644[m
+[1m--- a/packages/repositories.config[m
+[1m+++ b/packages/repositories.config[m
+[36m@@ -1,4 +1,5 @@[m
+ ﻿<?xml version="1.0" encoding="utf-8"?>[m
+ <repositories>[m
+[32m+[m[32m  <repository path="..\Model\packages.config" />[m
+   <repository path="..\Service\packages.config" />[m
+ </repositories>[m
+\ No newline at end of file[m

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="servicestackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="servicestackModelStoreContainer">
+    <EntitySet Name="Contact" EntityType="servicestackModel.Store.Contact" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContactGroup" EntityType="servicestackModel.Store.ContactGroup" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User" EntityType="servicestackModel.Store.User" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ContactGroups_Contacts" Association="servicestackModel.Store.FK_ContactGroups_Contacts">
+      <End Role="Contact" EntitySet="Contact" />
+      <End Role="ContactGroup" EntitySet="ContactGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Contacts_Users" Association="servicestackModel.Store.FK_Contacts_Users">
+      <End Role="User" EntitySet="User" />
+      <End Role="Contact" EntitySet="Contact" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContactGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="ContactId" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="FirstName" Type="nchar" MaxLength="10" />
+    <Property Name="LastName" Type="nchar" MaxLength="10" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <Association Name="FK_ContactGroups_Contacts">
+    <End Role="Contact" Type="servicestackModel.Store.Contact" Multiplicity="1" />
+    <End Role="ContactGroup" Type="servicestackModel.Store.ContactGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactGroup">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Contacts_Users">
+    <End Role="User" Type="servicestackModel.Store.User" Multiplicity="1" />
+    <End Role="Contact" Type="servicestackModel.Store.Contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Contact">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
