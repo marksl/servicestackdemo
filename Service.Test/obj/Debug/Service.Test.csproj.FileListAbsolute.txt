@@ -1,5 +1,0 @@
-C:\Users\Aloc\servicestackdemo\Service.Test\bin\Debug\Service.Test.dll
-C:\Users\Aloc\servicestackdemo\Service.Test\bin\Debug\Service.Test.pdb
-C:\Users\Aloc\servicestackdemo\Service.Test\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Aloc\servicestackdemo\Service.Test\obj\Debug\Service.Test.dll
-C:\Users\Aloc\servicestackdemo\Service.Test\obj\Debug\Service.Test.pdb

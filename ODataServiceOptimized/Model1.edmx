@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="servicestackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="servicestackModelStoreContainer">
+          <EntitySet Name="Contact" EntityType="servicestackModel.Store.Contact" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ContactGroup" EntityType="servicestackModel.Store.ContactGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="servicestackModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ContactGroups_Contacts" Association="servicestackModel.Store.FK_ContactGroups_Contacts">
+            <End Role="Contact" EntitySet="Contact" />
+            <End Role="ContactGroup" EntitySet="ContactGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contacts_Users" Association="servicestackModel.Store.FK_Contacts_Users">
+            <End Role="User" EntitySet="User" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="ContactId" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="FirstName" Type="nchar" MaxLength="10" />
+          <Property Name="LastName" Type="nchar" MaxLength="10" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="256" />
+        </EntityType>
+        <Association Name="FK_ContactGroups_Contacts">
+          <End Role="Contact" Type="servicestackModel.Store.Contact" Multiplicity="1" />
+          <End Role="ContactGroup" Type="servicestackModel.Store.ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contacts_Users">
+          <End Role="User" Type="servicestackModel.Store.User" Multiplicity="1" />
+          <End Role="Contact" Type="servicestackModel.Store.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="servicestackModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="servicestackEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contacts" EntityType="servicestackModel.Contact" />
+          <EntitySet Name="ContactGroups" EntityType="servicestackModel.ContactGroup" />
+          <EntitySet Name="Users" EntityType="servicestackModel.User" />
+          <AssociationSet Name="FK_ContactGroups_Contacts" Association="servicestackModel.FK_ContactGroups_Contacts">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="ContactGroup" EntitySet="ContactGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contacts_Users" Association="servicestackModel.FK_Contacts_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ContactGroups" Relationship="servicestackModel.FK_ContactGroups_Contacts" FromRole="Contact" ToRole="ContactGroup" />
+          <NavigationProperty Name="User" Relationship="servicestackModel.FK_Contacts_Users" FromRole="Contact" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ContactGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="ContactId" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Contact" Relationship="servicestackModel.FK_ContactGroups_Contacts" FromRole="ContactGroup" ToRole="Contact" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="LastName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Contacts" Relationship="servicestackModel.FK_Contacts_Users" FromRole="User" ToRole="Contact" />
+        </EntityType>
+        <Association Name="FK_ContactGroups_Contacts">
+          <End Role="Contact" Type="servicestackModel.Contact" Multiplicity="1" />
+          <End Role="ContactGroup" Type="servicestackModel.ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contacts_Users">
+          <End Role="User" Type="servicestackModel.User" Multiplicity="1" />
+          <End Role="Contact" Type="servicestackModel.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="servicestackModelStoreContainer" CdmEntityContainer="servicestackEntities">
+          <EntitySetMapping Name="Contacts"><EntityTypeMapping TypeName="servicestackModel.Contact"><MappingFragment StoreEntitySet="Contact">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="UserId" ColumnName="UserId" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ContactGroups"><EntityTypeMapping TypeName="servicestackModel.ContactGroup"><MappingFragment StoreEntitySet="ContactGroup">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="servicestackModel.User"><MappingFragment StoreEntitySet="User">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+            <ScalarProperty Name="LastName" ColumnName="LastName" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="servicestackModel.Contact" Width="1.5" PointX="3" PointY="0.875" Height="2.1725878906250005" IsExpanded="true" />
+        <EntityTypeShape EntityType="servicestackModel.ContactGroup" Width="1.5" PointX="5.25" PointY="1.125" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="servicestackModel.User" Width="1.5" PointX="0.75" PointY="1" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="servicestackModel.FK_ContactGroups_Contacts" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="2.0189925130208337" />
+          <ConnectorPoint PointX="5.25" PointY="2.0189925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="servicestackModel.FK_Contacts_Users" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.9901432291666668" />
+          <ConnectorPoint PointX="3" PointY="1.9901432291666668" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

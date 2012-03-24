@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="servicestackModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="servicestackEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Contacts" EntityType="servicestackModel.Contact" />
+    <EntitySet Name="ContactGroups" EntityType="servicestackModel.ContactGroup" />
+    <EntitySet Name="Users" EntityType="servicestackModel.User" />
+    <AssociationSet Name="FK_ContactGroups_Contacts" Association="servicestackModel.FK_ContactGroups_Contacts">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="ContactGroup" EntitySet="ContactGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Contacts_Users" Association="servicestackModel.FK_Contacts_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Contact" EntitySet="Contacts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="UserId" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="ContactGroups" Relationship="servicestackModel.FK_ContactGroups_Contacts" FromRole="Contact" ToRole="ContactGroup" />
+    <NavigationProperty Name="User" Relationship="servicestackModel.FK_Contacts_Users" FromRole="Contact" ToRole="User" />
+  </EntityType>
+  <EntityType Name="ContactGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="ContactId" Type="Int64" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Contact" Relationship="servicestackModel.FK_ContactGroups_Contacts" FromRole="ContactGroup" ToRole="Contact" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="LastName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Contacts" Relationship="servicestackModel.FK_Contacts_Users" FromRole="User" ToRole="Contact" />
+  </EntityType>
+  <Association Name="FK_ContactGroups_Contacts">
+    <End Role="Contact" Type="servicestackModel.Contact" Multiplicity="1" />
+    <End Role="ContactGroup" Type="servicestackModel.ContactGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactGroup">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Contacts_Users">
+    <End Role="User" Type="servicestackModel.User" Multiplicity="1" />
+    <End Role="Contact" Type="servicestackModel.Contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Contact">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

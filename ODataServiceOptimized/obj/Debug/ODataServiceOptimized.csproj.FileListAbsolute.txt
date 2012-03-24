@@ -1,0 +1,5 @@
+C:\Users\Aloc\servicestackdemo\ODataServiceOptimized\bin\ODataService.dll
+C:\Users\Aloc\servicestackdemo\ODataServiceOptimized\bin\ODataService.pdb
+C:\Users\Aloc\servicestackdemo\ODataServiceOptimized\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Aloc\servicestackdemo\ODataServiceOptimized\obj\Debug\ODataService.dll
+C:\Users\Aloc\servicestackdemo\ODataServiceOptimized\obj\Debug\ODataService.pdb
