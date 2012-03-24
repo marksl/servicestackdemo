@@ -2,3 +2,5 @@
 _resharper.*
 Service/bin
 Service/obj
+Service.Test/bin
+Service.Test/obj
