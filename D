@@ -1,0 +1,24 @@
+[1mdiff --git a/ServiceStackDemo.sln b/ServiceStackDemo.sln[m
+[1mindex f80ec18..5226689 100644[m
+[1m--- a/ServiceStackDemo.sln[m
+[1m+++ b/ServiceStackDemo.sln[m
+[36m@@ -16,6 +16,8 @@[m [mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataService", "ODataServic[m
+ EndProject[m
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{268F13D0-210B-4CE0-9533-590B6580306C}"[m
+ EndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataServiceOptimized", "ODataServiceOptimized\ODataServiceOptimized.csproj", "{8D12E2E0-C032-4886-93E0-8CEE16666929}"[m
+[32m+[m[32mEndProject[m
+ Global[m
+ 	GlobalSection(TestCaseManagementSettings) = postSolution[m
+ 		CategoryFile = ServiceStackDemo.vsmdi[m
+[36m@@ -41,6 +43,10 @@[m [mGlobal[m
+ 		{268F13D0-210B-4CE0-9533-590B6580306C}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+ 		{268F13D0-210B-4CE0-9533-590B6580306C}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+ 		{268F13D0-210B-4CE0-9533-590B6580306C}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{8D12E2E0-C032-4886-93E0-8CEE16666929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{8D12E2E0-C032-4886-93E0-8CEE16666929}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{8D12E2E0-C032-4886-93E0-8CEE16666929}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{8D12E2E0-C032-4886-93E0-8CEE16666929}.Release|Any CPU.Build.0 = Release|Any CPU[m
+ 	EndGlobalSection[m
+ 	GlobalSection(SolutionProperties) = preSolution[m
+ 		HideSolutionNode = FALSE[m
